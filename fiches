@@ -1,0 +1,8 @@
+Для того чтобы убрать "/faces" из URL, нужно прописать в web.xml следующее:    <url-pattern>*. faces</url-pattern>
+Логи glassfish лежат в "glassfish/domains/domain1/logs/server.log"
+prependId - идентификатор автоматически добавляемый к форме при ее генерации.
+Рекомендуется использовать CDI бины (@Named) вместо @ManagedBean. Для их активизации необходимо создать пустой файл beans.xml в директории WEB-INF.
+Рекомендуется делать управляемые бины Serializable. Для CDI бинов с охватом сеанса это требование обязательно.
+Геттер должен присутствовать всегда в бине, даже если он не нужен.
+Для связывания вспомогательного бина с основным используется атрибут "binding".
+Для создания списка сообщений необходимо создать файл "messages.properties" в папке с java классами. Для объявления связки с этим файлом нужно добавить в файл faces-config.xml в тег <application> следующее <resourse-bundle><base-name>com.corejsf.messages</base-name><var>msgs</var></resourse-bundle>
