@@ -5,4 +5,15 @@ prependId - идентификатор автоматически добавля
 Рекомендуется делать управляемые бины Serializable. Для CDI бинов с охватом сеанса это требование обязательно.
 Геттер должен присутствовать всегда в бине, даже если он не нужен.
 Для связывания вспомогательного бина с основным используется атрибут "binding".
-Для создания списка сообщений необходимо создать файл "messages.properties" в папке с java классами. Для объявления связки с этим файлом нужно добавить в файл faces-config.xml в тег <application> следующее <resourse-bundle><base-name>com.corejsf.messages</base-name><var>msgs</var></resourse-bundle>
+Для встраивания свойства CDI бина необходимо написать @Inject private UserBean currentUser;
+Для создания списка сообщений необходимо создать файл "messages.properties" в папке с java классами. Для объявления связки с этим файлом нужно добавить в файл faces-config.xml в тег <application> следующее <resourse-bundle><base-name>com.corejsf.messages</base-name><var>msgs</var></resourse-bundle>., Для вставки переменной, следует использовать запись такого вида currentScore=Your current score is {0} в файле сообщений, и <h:outputFormat value="#{msgs.currentScore}"><f:param value="#{quizBean.Score}"/></h:outputFormat>. Для более подробного описания формата смотреть класс MessageFormat.
+У бинов CDI имеется дополнительная область просмотра @ConversationScoped - область диалога. Для ее добавления нужно
+добавить переменную экземпляра private @Inject Conversation conversation. Она будет автоматически инициализирована вместе с объектом Conversation при создании бина.
+Вызвать метод conversation.begin(), чтобы перевести бин из области запроса в область диалога.
+Вызвать метод converrsation.end(), чтобы удалить бин из области диалога
+Анатации @PostConstruct и @PreDestroy - для определения метода бина сразу после создания и перед выходом из области действия соответственно.
+Для REST применяется кнопка <button> использующая метод GET и outcome вычисляется до подготовки страницы к отображению, в то время как <commandButton> делает запрос POST и action вычисляется после нажатия кнопки.
+Для REST для формирования удобочитаемого вида URL необходимо добавить в HEAD <f:metadata><f:viewParam name="item" value="#{catalog.currentItem}"/></f:metadata>.
+Для обращения из бина к компоненту страницы по ее id можно использовать следующее UIComponent component = event.getComponent().findComponent("name"). Они должны находиться в одной и той же форме.
+В компонент <f:selectItem> можно передавать объект типа javax.faces.model.SelectItem.
+Для вывода сообщений следует использовать <h:messages> и <h:message>(отображает только сообщение для конкретного компонента, указанного в "for").
